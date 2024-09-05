@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from "react-native";
-// import i18next from '../../scripts/language'
 import { useTranslation } from "react-i18next";
 
 
@@ -25,7 +24,6 @@ const styles = StyleSheet.create({
         borderRadius:10,
         backgroundColor:'white',
         margin:8,
-        // marginBottom:20
     },
     contentContainer:{
         overflow:'hidden'

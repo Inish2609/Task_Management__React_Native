@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   Button,
+  KeyboardAvoidingView
 } from "react-native";
 import TaskFormField from "./TaskFormField";
 // import Button from "../UI/Button";
@@ -29,12 +30,7 @@ import { alert } from "../UI/alert";
 
 export default function TaskForm(props) {
   const ref = useRef();
-
-  // console.log(props.data)
-
   const { t } = useTranslation();
-  // const db = SQLite.openDatabase("OfficeWork");
-
   const [taskDetails, setTaskDetails] = useState(
     props.data ? props.data.taskDetails : ""
   );
@@ -62,7 +58,6 @@ export default function TaskForm(props) {
 
   function taskDetailHandler(value) {
     setTaskDetails(value);
-    // console.log(value)
   }
 
   useEffect(() => {
@@ -76,15 +71,6 @@ export default function TaskForm(props) {
 
     return () => unsubscribe();
   }, [netInfoStatus]);
-
-  // function CreateSQLiteTable() {
-  //   db.transaction((tx) => {
-  //     tx.executeSql(
-  //       "CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, taskDetails TEXT, typeOfWork TEXT, status TEXT, selectedDate TEXT, signature TEXT, synced TEXT DEFAULT 'loaded', isDeleted INTEGER DEFAULT 0)"
-  //     );
-  //     // tx.executeSql("DROP TABLE tasks",[])
-  //   });
-  // }
 
   const saveSignature = (base64String) => {
     const filename = `${FileSystem.documentDirectory}signature.png`;
@@ -113,6 +99,7 @@ export default function TaskForm(props) {
       status: status,
       selectedDate: selectedDate,
       signature: signature,
+      notificationId:notificationId
     };
 
     console.log("Hello Edit");
@@ -127,39 +114,8 @@ export default function TaskForm(props) {
         notificationId,
         props.data.id
       );
-      // db.transaction((tx) => {
-      //   tx.executeSql(
-      //     "UPDATE tasks SET taskDetails = ?, typeOfWork = ?, status = ?, selectedDate = ?, signature = ?, synced = ? WHERE id = ?",
-      //     [
-      //       taskData.taskDetails,
-      //       taskData.typeOfWork,
-      //       taskData.status,
-      //       taskData.selectedDate,
-      //       taskData.signature,
-      //       "loaded",
-      //       props.data.id,
-      //     ],
-      //     (tx, resultSet) => console.log(resultSet.rowsAffected),
-      //     (tx, error) => console.log(error)
-      //   );
-      // });
     } else {
       UpdateSQLiteTable(taskData, "updated", notificationId, props.data.id);
-      // db.transaction((tx) => {
-      //   tx.executeSql(
-      //     "UPDATE tasks SET taskDetails = ?, typeOfWork = ?, status = ?, selectedDate = ?, signature = ?, synced = ? WHERE id = ?",
-      //     [
-      //       taskData.taskDetails,
-      //       taskData.typeOfWork,
-      //       taskData.status,
-      //       taskData.selectedDate,
-      //       taskData.signature,
-      //       "updated",
-      //       props.data.id,
-      //     ],
-      //     (tx, resultSet) => {}
-      //   );
-      // });
       taskCtx.updateTask(props.data.id, taskData);
     }
 
@@ -192,53 +148,11 @@ export default function TaskForm(props) {
       const response = await addTaskData(taskData);
       console.log(typeof response);
       taskCtx.addTask(taskData, response);
-
-      // console.log(taskData.selectedDate);
-
       await AddDateToSQLiteTable(response, taskData, "loaded", notificationId);
-
-      // db.transaction((tx) => {
-      //   tx.executeSql(
-      //     "INSERT INTO tasks (id, taskDetails, typeOfWork, status, selectedDate, signature, synced) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      //     [
-      //       response,
-      //       taskData.taskDetails,
-      //       taskData.typeOfWork,
-      //       taskData.status,
-      //       taskData.selectedDate,
-      //       taskData.signature,
-      //       "loaded",
-      //     ],
-      //     (tx, resultSet) => {
-      //       console.log(resultSet.rowsAffected);
-      //     },
-      //     (tx, error) => console.log(error)
-      //   );
-      // });
     } else {
       console.log("Offline");
       const rnd = Math.random().toString();
       await AddDateToSQLiteTable(rnd, taskData, "pending", notificationId);
-
-      // db.transaction((tx) => {
-      //   tx.executeSql(
-      //     "INSERT INTO tasks (id, taskDetails, typeOfWork, status, selectedDate, signature, synced) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      //     [
-      //       rnd,
-      //       taskData.taskDetails,
-      //       taskData.typeOfWork,
-      //       taskData.status,
-      //       taskData.selectedDate,
-      //       taskData.signature,
-      //       "pending",
-      //     ],
-      //     (tx, resultSet) => {
-      //       console.log(resultSet.rowsAffected)
-
-      //     },
-      //     (tx, error) => console.log(error)
-      //   );
-      // });
       taskCtx.addTask(taskData, rnd);
     }
     console.log(taskData);
@@ -269,9 +183,7 @@ export default function TaskForm(props) {
   };
 
   async function handleOK(data) {
-    // console.log(data);
     const dataSign = await saveSignature(data);
-    // console.log(dataSign);
   }
 
   function handleClear() {
@@ -335,10 +247,6 @@ export default function TaskForm(props) {
       </View>
       <View></View>
       <View style={styles.buttonContainer}>
-        {/* <Button onPress={submitValueHandler}>
-            {props.isEdited ? t("Update") : t("Add")}
-          </Button>
-          <Button onPress={submitValueHandler}>Clear</Button> */}
         {!signature && (
           <Signature
             ref={ref}

@@ -2,7 +2,6 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import Header from "../components/AllTask/Header";
 import TaskContent from "../components/AllTask/TaskContent";
 import MyTask from "../components/AllTask/MyTask";
-// import i18next from '../scripts/language'
 import { useEffect } from "react";
 import { syncPendingData } from "../database/db";
 import NetInfo from '@react-native-community/netinfo'

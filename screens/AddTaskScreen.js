@@ -1,17 +1,13 @@
-import { StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import Header from "../components/AllTask/Header";
 import AddTaskContent from "../components/AddTask/AddTaskContent";
 import { useContext } from "react";
 import { TaskContext } from "../store/task-context";
-import i18next from '../scripts/language'
 import { useTranslation } from "react-i18next";
 
 export default function AddTaskScreen(props){
     
     const editableId = props.route.params?.id
-
-    // console.log(editableId)
-
     const isEdited = !!editableId
     const {t} = useTranslation()
 

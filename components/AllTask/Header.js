@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Image, StyleSheet, View, Text } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import i18next from '../../scripts/language'
 import { useTranslation } from "react-i18next";
+import { TaskContext } from "../../store/task-context";
 
 
 export default function Header(){
 
     const {t} = useTranslation()
     const [wishes,setWishes] = useState('')
+    const [count,setCount] = useState(0)
+    const taskCtx = useContext(TaskContext)
 
     useEffect(()=>{
         const now = new Date()
@@ -24,6 +27,11 @@ export default function Header(){
         }
     },[wishes])
 
+    useEffect(() => {
+        // console.log("hello")
+        setCount(taskCtx.tasks.filter(task => (task.status === 'Pending')).length)
+    },[taskCtx.tasks])
+
     return(
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -31,7 +39,7 @@ export default function Header(){
             </View>
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{t(wishes)}!, Inish</Text>
-                <Text style={{textAlign:'center'}}>{t("Task Remaining")}</Text>
+                <Text style={{textAlign:'center'}}>{t("Task Remaining")} : {count}</Text>
             </View>
             <View style={styles.iconContainer}>
                 <FontAwesome name="bell" size={28} />
