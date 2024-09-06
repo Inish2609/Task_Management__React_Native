@@ -2,6 +2,9 @@ import * as SQLite from "expo-sqlite/legacy";
 import { addTaskData, deleteTaskData, updateTaskData } from "../scripts/http";
 import { useContext } from "react";
 import { TaskContext } from "../store/task-context";
+// import * as FileSystem from 'expo-file-system'
+
+// const dbFilePath = `${FileSystem.documentDirectory}OfficeWork.db`;
 
 const db = SQLite.openDatabase("OfficeWork.db");
 
@@ -9,7 +12,7 @@ export function CreateSQLiteTable() {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, taskDetails TEXT, typeOfWork TEXT, status TEXT, selectedDate TEXT, signature TEXT, synced TEXT DEFAULT 'loaded', isDeleted INTEGER DEFAULT 0)",
+        "CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, taskDetails TEXT, typeOfWork TEXT, status TEXT, selectedDate TEXT, signature TEXT, synced TEXT DEFAULT 'loaded', isDeleted INTEGER DEFAULT 0, notificationId TEXT)",
         [],
         (tx, resultSet) => {
           resolve(console.log("APP JS File Table Created SuccessFully"));

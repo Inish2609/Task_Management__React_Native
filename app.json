@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TranslationApp",
-    "slug": "TranslationApp",
+    "name": "Task-Management-App",
+    "slug": "Task-Management-App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,7 +26,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "0f0cb46d-0f0e-428b-94cf-768c45c1bb51"
+        "projectId": "0e7ae94d-693b-4b39-ac7e-8e1808b6f40b"
       }
     }
   }

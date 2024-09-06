@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StartScreen from "./screens/StartScreen";
@@ -90,8 +89,7 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <TaskContextProvider>
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -104,8 +102,7 @@ export default function App() {
             </Stack.Navigator>
           </NavigationContainer>
         </TaskContextProvider>
-      </SafeAreaView>
-    </GestureHandlerRootView>
+      </View>
   );
 }
 
