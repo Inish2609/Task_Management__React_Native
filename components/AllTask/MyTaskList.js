@@ -49,7 +49,7 @@ export default function MyTaskList(props){
 
         return () => unsubscribe()
 
-    },[netInfo])
+    },[])
 
     function deleteAlert(){
         deletehandler(props.itemData.item.id)
@@ -83,8 +83,9 @@ export default function MyTaskList(props){
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
-        height: 120,
+        // width: "100%",
+        // height: 120,
+        flex:1,
         elevation: 4,
         padding: 18,
         borderRadius: 10,

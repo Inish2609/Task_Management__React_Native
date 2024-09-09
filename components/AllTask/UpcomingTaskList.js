@@ -17,8 +17,9 @@ export default function UpcomingTaskList(props){
 
 const styles = StyleSheet.create({
     container:{
-        width:200,
-        height:120,
+        // width:200,
+        // height:120,
+        flex:1,
         elevation:4,
         padding:18,
         borderRadius:10,

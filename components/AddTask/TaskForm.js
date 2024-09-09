@@ -6,7 +6,8 @@ import {
   TextInput,
   Image,
   Button,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import TaskFormField from "./TaskFormField";
 // import Button from "../UI/Button";
@@ -51,7 +52,6 @@ export default function TaskForm(props) {
   const [notificationIdentifier, setNoticationIdentifier] = useState(
     props.data ? props.data.notificationId : ""
   );
-
 
   const navigation = useNavigation();
   const taskCtx = useContext(TaskContext);
@@ -99,7 +99,7 @@ export default function TaskForm(props) {
       status: status,
       selectedDate: selectedDate,
       signature: signature,
-      notificationId:notificationId
+      notificationId: notificationId,
     };
 
     console.log("Hello Edit");
@@ -195,57 +195,58 @@ export default function TaskForm(props) {
   }
 
   return (
-    <View style={styles.container}>
-      <TaskFormField
-        label="Task Details"
-        placeholder="Enter The Task Details"
-        taskDetails={taskDetails}
-        taskDetailHandler={taskDetailHandler}
-      />
-      <View style={styles.workContainer}>
-        <Text style={styles.label}>{t("Select an TypeOfWork")}</Text>
-        <RNPickerSelect
-          onValueChange={(value) => setTypeOfWork(value)}
-          items={[
-            { label: "Personal", value: "Personal" },
-            { label: "Office", value: "Office" },
-            { label: "Other", value: "Other" },
-          ]}
-          value={typeOfWork}
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <ScrollView>
+        <TaskFormField
+          label="Task Details"
+          placeholder="Enter The Task Details"
+          taskDetails={taskDetails}
+          taskDetailHandler={taskDetailHandler}
         />
-      </View>
-      <View style={styles.workContainer}>
-        <Text style={styles.label}>{t("Choose The Date To Complete")}</Text>
-        <TouchableOpacity onPress={showDatePicker} style={{ marginTop: 10 }}>
-          <View pointerEvents="none">
-            <TextInput
-              style={styles.input}
-              placeholder={t("Select Date")}
-              value={selectedDate}
-              editable={false}
-            />
-          </View>
-        </TouchableOpacity>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="datetime"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
-      </View>
-      <View style={styles.workContainer}>
-        <Text style={styles.label}>{t("Select an Status")}</Text>
-        <RNPickerSelect
-          onValueChange={(value) => setStatus(value)}
-          value={status}
-          items={[
-            { label: "Done", value: "Done" },
-            { label: "In Progress", value: "In Progress" },
-            { label: "Pending", value: "Pending" },
-          ]}
-        />
-      </View>
-      <View></View>
+        <View style={styles.workContainer}>
+          <Text style={styles.label}>{t("Select an TypeOfWork")}</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setTypeOfWork(value)}
+            items={[
+              { label: "Personal", value: "Personal" },
+              { label: "Office", value: "Office" },
+              { label: "Other", value: "Other" },
+            ]}
+            value={typeOfWork}
+          />
+        </View>
+        <View style={styles.workContainer}>
+          <Text style={styles.label}>{t("Choose The Date To Complete")}</Text>
+          <TouchableOpacity onPress={showDatePicker} style={{ marginTop: 10 }}>
+            <View pointerEvents="none">
+              <TextInput
+                style={styles.input}
+                placeholder={t("Select Date")}
+                value={selectedDate}
+                editable={false}
+              />
+            </View>
+          </TouchableOpacity>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="datetime"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+        </View>
+        <View style={styles.workContainer}>
+          <Text style={styles.label}>{t("Select an Status")}</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setStatus(value)}
+            value={status}
+            items={[
+              { label: "Done", value: "Done" },
+              { label: "In Progress", value: "In Progress" },
+              { label: "Pending", value: "Pending" },
+            ]}
+          />
+        </View>
+      </ScrollView>
       <View style={styles.buttonContainer}>
         {!signature && (
           <Signature
@@ -255,17 +256,17 @@ export default function TaskForm(props) {
             descriptionText="Sign"
             clearText="Clear"
             confirmText="Save"
-            webStyle={`.m-signature-pad--footer {display: block; margin: 0px;}`}
             autoClear={true}
+            style={{ height: 200, width: "100%" }}
           />
         )}
         {signature && (
-          <View>
+          <View style={{ flex: 1, margin: 50 }}>
             <Image
               source={{ uri: signature }}
               style={{
-                width: 100,
-                height: 100,
+                width: "100%",
+                height: 180,
                 alignItems: "center",
                 justifyContent: "center",
               }}
@@ -273,7 +274,7 @@ export default function TaskForm(props) {
             <View>
               <Button
                 title={props.isEdited ? t("Update") : t("Add")}
-                onPress={alert.bind(this,updateValue)}
+                onPress={alert.bind(this, updateValue)}
               />
             </View>
           </View>
@@ -283,7 +284,7 @@ export default function TaskForm(props) {
             <View style={{ margin: 10 }}>
               <Button
                 title={props.isEdited ? t("Update") : t("Add")}
-                onPress={alert.bind(this,handleConfirmValue)}
+                onPress={alert.bind(this, handleConfirmValue)}
               />
             </View>
             <View style={{ margin: 10 }}>
@@ -292,7 +293,7 @@ export default function TaskForm(props) {
           </View>
         )}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -301,7 +302,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    flex: 1,
+    flex: 6,
   },
   buttons: {
     alignItems: "center",
@@ -313,6 +314,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     // padding: 10,
+    margin: 13,
   },
   label: {
     fontSize: 18,

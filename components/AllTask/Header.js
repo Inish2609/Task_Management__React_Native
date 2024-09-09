@@ -25,7 +25,7 @@ export default function Header(){
         else {
             setWishes("Good Evening")
         }
-    },[wishes])
+    },[])
 
     useEffect(() => {
         // console.log("hello")

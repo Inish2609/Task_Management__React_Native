@@ -30,7 +30,7 @@ export default function MyTask() {
     });
 
     return () => unsubscribe();
-  }, [netInfo]);
+  }, []);
 
   useEffect(() => {
     setFilteredTasks(taskCtx.tasks);
@@ -96,7 +96,7 @@ export default function MyTask() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: -30,
+    // marginTop: -30,
     // paddingTop:30
   },
   buttonContainer: {
